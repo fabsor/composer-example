@@ -1,0 +1,16 @@
+{
+    "name": "fabsor/composer-example",
+    "authors": [
+        {
+            "name": "Fabian Sorqvist",
+            "email": "fabian@sorqvist.nu"
+        }
+    ],
+    "require": {
+        "symfony/finder": "~2.6",
+        "symfony/console": "~2.6"
+    },
+  "autoload": {
+    "psr-4": { "Fabsor\\": "src/" }
+  }
+}
