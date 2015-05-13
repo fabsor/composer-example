@@ -8,7 +8,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
 
 
-class ExampleCommand extends Command {
+class LsCommand extends Command {
   protected function configure() {
     $this->setName('ls')
       ->setDescription('List files in the directory')
