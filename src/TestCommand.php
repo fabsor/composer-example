@@ -29,7 +29,7 @@ class TestCommand extends Command {
   }
 
   protected function testGet($client, $url) {
-    $res = $client->get($url);
+    $res = $client->get($url, array('headers' => array('Accept' => 'application/json')));
     $this->assert(
       $res->getStatusCode() == 200,
       'The web service didn\'t return the right response code, should be 200. got ' . $res->getStatusCode());
