@@ -24,6 +24,8 @@ class OrmCommand extends Command {
     $data = $this->testPost($client, $url . '/recipes');
     $this->testGet($client, $url . '/recipes', $data['id']);
     $output->writeln('<info>I Found my recipe!</info>');
+    $output->writeln('<info>Lets improve the recipe</info>');
+    $this->testPut($client, $url . '/recipes', $data);
     $output->writeln('<info>Yay, you made it!</info>');
   }
 
@@ -72,6 +74,28 @@ class OrmCommand extends Command {
     $this->assert(!empty($data['id']), 'There should be an id present');
     return $data;
   }
+
+  protected function testPut($client, $url, $data) {
+    $body = array(
+      'title' => 'Brownies',
+      'description' => 'Bake them like I tell you to.'
+    );
+    $body['title'] .= rand(0, 5000);
+    $res = $client->put($url . '/' . $data['id'], array('json' => $body));
+    $this->assert(
+      $res->getStatusCode() == 200,
+      'The web service didn\'t return the right response code, when posting, should be 200');
+    $this->assert(
+      strpos($res->getHeader('content-type'), 'application/json') !== false,
+      'The web service didn\'t tell me it returned json');
+    $data = $res->json();
+    $this->assert(is_array($data), 'The data returned is not an array');
+    $this->assert($data['title'] == $body['title'], 'The title of the recipe is wrong');
+    $this->assert($data['description'] == $body['description'], 'The description of the recipe is wrong.');
+    $this->assert(!empty($data['id']), 'There should be an id present');
+    return $data;
+  }
+
 
   protected function assert($condition, $msg) {
     if (!$condition) {
